@@ -25,14 +25,16 @@ import com.store.api.repositories.ProductRepository;
 public class ProductController {
 
 	@Autowired
-	
 	private ProductRepository productRepository;
 	
 	@GetMapping("/list")
 	public ResponseEntity<List<Product>> index() {
 		try {
 			List<Product> productList = productRepository.findAll();
-			return new ResponseEntity<>(productList, HttpStatus.OK);
+			if(!productList.isEmpty()) {
+				return new ResponseEntity<>(productList, HttpStatus.OK);
+			}
+			return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -52,13 +54,12 @@ public class ProductController {
 	}
 
 	@PostMapping("/register")
-	public ResponseEntity<String> store(@RequestBody Product product) {
+	public ResponseEntity<String> store(@RequestBody List<Product> products) {
 		try {
-			Product newProduct = new Product(product.getName(), product.getDescription());
-			this.productRepository.save(newProduct);
-			return new ResponseEntity<>("Produto cadastro com suceso.", HttpStatus.OK);
+			this.productRepository.saveAll(products);
+			return new ResponseEntity<>("Produto cadastro com sucesso.", HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>("Não foi possível cadastrar o produto.", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 	}
@@ -72,11 +73,11 @@ public class ProductController {
 				newProduct.setName(product.getName());
 				newProduct.setDescription(product.getDescription());
 				this.productRepository.save(newProduct);
-				return new ResponseEntity<>("Produto atualizado com suceso.", HttpStatus.OK);
+				return new ResponseEntity<>("Produto atualizado com sucesso.", HttpStatus.OK);
 			}
 			return new ResponseEntity<>("Produto não encontrado.", HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>("Não foi possível atualizar o produto.", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 	}
@@ -85,9 +86,9 @@ public class ProductController {
 	public ResponseEntity<String> delete(@PathVariable("productId") String productId) {
 		try {
 			this.productRepository.deleteById(productId);
-			return new ResponseEntity<>("Produto apagado com suceso.", HttpStatus.OK);
+			return new ResponseEntity<>("Produto apagado com sucesso.", HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>("Produto não pode ser deletado.", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 	}
