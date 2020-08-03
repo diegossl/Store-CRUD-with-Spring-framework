@@ -7,15 +7,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Product {
 	
 	@Id
-	private String id;
+	protected String id;
 	private String name;
 	private String description;
+	private Integer quantity;
+	private String price;
 	
 	public Product() { }
 	
-	public Product(String name, String description) {
-		this.setName(name);
-		this.setDescription(description);
+	public String getId() {
+		return id;
 	}
 
 	public String getName() {
@@ -32,6 +33,22 @@ public class Product {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Integer getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
+
+	public String getPrice() {
+		return price;
+	}
+
+	public void setPrice(String price) {
+		this.price = price;
 	}
 
 }

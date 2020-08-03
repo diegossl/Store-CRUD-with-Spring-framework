@@ -72,6 +72,9 @@ public class ProductController {
 				Product newProduct = oldProduct.get();
 				newProduct.setName(product.getName());
 				newProduct.setDescription(product.getDescription());
+				newProduct.setQuantity(product.getQuantity());
+				newProduct.setPrice(product.getPrice());
+				
 				this.productRepository.save(newProduct);
 				return new ResponseEntity<>("Produto atualizado com sucesso.", HttpStatus.OK);
 			}
