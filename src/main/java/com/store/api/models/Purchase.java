@@ -6,19 +6,11 @@ import org.springframework.stereotype.Component;
 public class Purchase {
 	
 	private String name;
-	private String email;
 	private String phone;
 	private String productId;
 	
 	public Purchase() { }
-		
-	public Purchase(String name, String email, String phone, String productId) {
-		this.name = name;
-		this.email = email;
-		this.phone = phone;
-		this.productId = productId;
-	}
-
+	
 	public String getName() {
 		return name;
 	}
@@ -27,14 +19,6 @@ public class Purchase {
 		this.name = name;
 	}
 	
-	public String getEmail() {
-		return email;
-	}
-	
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public String getPhone() {
 		return phone;
 	}
